@@ -15,6 +15,8 @@ import CommitteeBudgetChart from '@/components/CommitteeBudgetChart';
 import OutstandingDuesTable from '@/components/OutstandingDues';
 import BudgetRequestsTable from '@/components/BudgetRequestTable';
 import ServiceCarousel from '@/components/ServiceCarousel';
+import BudgetOverview from '@/components/BudgetOverview';
+import MembershipStructureOverview from '@/components/MembershipStructureOverview';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 // Modern dark color palette
@@ -365,6 +367,15 @@ export default function DashboardPage() {
     <Box bg="#F8F9FA" style={{ minHeight: '100vh', padding: '5rem 0' }}>
         <Container size="lg">
             <Grid gutter="xl" pt="xl">
+            {/* Budget Overview Section */}
+            <Grid.Col span={12}>
+              <BudgetOverview />
+            </Grid.Col>
+            {/* AKPsi Membership Structure Section */}
+            <Grid.Col span={12}>
+              <MembershipStructureOverview />
+            </Grid.Col>
+
             {/* First Row - Larger Charts */}
             <Grid.Col span={6} >
                 <Card shadow="sm" padding="lg" radius="md" h={350}>

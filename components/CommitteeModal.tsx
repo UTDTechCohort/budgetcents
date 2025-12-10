@@ -25,6 +25,7 @@ export function CommitteeModal() {
   const [committees, setCommittees] = useState<Committee[]>([]);
   const [activeTab, setActiveTab] = useState<'view' | 'add'>('view');
   const chartRef = useRef(null); // Reference for the pie chart
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5000';
 
   const form = useForm<Committee>({
     initialValues: {
@@ -39,7 +40,7 @@ export function CommitteeModal() {
   });
 
   const handleSubmit = async (values: Committee) => {
-    await fetch('http://localhost:5000/add_committee', {
+    await fetch(`${API_BASE}/add_committee`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ export function CommitteeModal() {
   };
 
   const fetchCommittees = async () => {
-    const response = await fetch('http://localhost:5000/get_committees');
+    const response = await fetch(`${API_BASE}/get_committees`);
     if (response.ok) {
       const data = await response.json();
       setCommittees(data);

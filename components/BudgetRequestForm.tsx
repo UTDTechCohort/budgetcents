@@ -38,7 +38,8 @@ import {
     });
   
     const handleSubmit = async (values: BudgetRequest) => {
-        const response = await fetch('http://localhost:5000/requests/new', {
+        const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5000';
+        const response = await fetch(`${API_BASE}/requests/new`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

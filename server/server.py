@@ -3,12 +3,35 @@ from flask import Flask, request, jsonify
 import json
 from dotenv import load_dotenv
 import os
+from pathlib import Path
 from flask_cors import CORS
 from bson import ObjectId, json_util
 from pymongo import MongoClient
 from datetime import datetime
 
-load_dotenv()
+# Resolve .env.local in the repository root (server.py is in repo_root/server/)
+repo_root = Path(__file__).resolve().parents[1]
+env_path = repo_root / '.env.local'
+
+if env_path.exists():
+    load_dotenv(str(env_path))
+    loaded_from = str(env_path)
+else:
+    # fallback to loading from working directory (for convenience)
+    load_dotenv('.env.local')
+    loaded_from = '.env.local (cwd)'
+
+# Debug / sanity-check (do not print full secrets)
+print(f"Loaded env file: {loaded_from}")
+cs = os.getenv('CONNECTION_STRING') or ''
+print("CONNECTION_STRING present:", bool(cs))
+print("CONNECTION_STRING preview:", (cs[:50] + '...') if len(cs) > 50 else cs)
+
+if not cs:
+    # Fail fast with a clear error to avoid PyMongo defaulting to localhost
+    raise RuntimeError("CONNECTION_STRING not found in environment. Set it in .env.local or export it before running the server.")
+
+
 app = Flask(__name__)
 CORS(app)
 

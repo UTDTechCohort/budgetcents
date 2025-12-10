@@ -11,7 +11,7 @@ interface BudgetRequest {
   dateProcessed?: string;
 }
 
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:5000';
 
 function BudgetRequestTable() {
   const [selectedRequest, setSelectedRequest] = useState<BudgetRequest | null>(null);
