@@ -216,6 +216,10 @@ def create_request():
     result = requests_collection.insert_one(new_request)
     return jsonify({"message": "Request created successfully", "id": str(result.inserted_id)}), 201
 
+# Test route
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "BudgetCents API is live!"}), 200
 
 # ------------------------------
 # LOCAL DEV ONLY
