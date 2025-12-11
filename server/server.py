@@ -3,7 +3,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson import json_util
-import ssl
 import json
 import os
 from pathlib import Path
@@ -50,7 +49,6 @@ client = MongoClient(
     os.getenv("CONNECTION_STRING"),
     tls=True,
     tlsAllowInvalidCertificates=False,
-    tlsVersion=ssl.PROTOCOL_TLSv1_2  # force TLSv1.2
 )
 db = client["user_data"]
 members = db["membership_info"]
