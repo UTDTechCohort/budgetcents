@@ -39,8 +39,7 @@ export default function BudgetOverview() {
   useEffect(() => {
     const fetchBudgetData = async () => {
       try {
-        const base = `https://${process.env.AUTH0_BASE_URL?.replace(/^https?:\/\//, '')}`;
-        const response = await fetch(`${base}/api/google-sheets/budget`);
+        const response = await fetch(`/api/google-sheets/budget`);
         if (!response.ok) throw new Error('Failed to fetch budget data');
         const data = await response.json();
         //console.log(data);
