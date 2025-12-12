@@ -16,36 +16,47 @@ export default function MembershipStructureOverview() {
         const data = await res.json();
         console.log('Membership API data:', data);
 
-        if (!canvasRef.current) return;
+        if (!canvasRef.current) {
+          console.error('Canvas ref is null');
+          return;
+        }
 
-        // destroy existing
+        // Destroy existing chart
         if (chartRef.current) chartRef.current.destroy();
+
+        // Ensure data arrays match
+        if (!data.labels || !data.values || data.labels.length !== data.values.length) {
+          throw new Error('Labels and values arrays are invalid or mismatched');
+        }
 
         const palette = ['#5E81AC', '#81A1C1', '#88C0D0', '#8FBCBB', '#A3BE8C', '#EBCB8B', '#BF616A'];
         const colors = data.labels.map((_: any, i: number) => palette[i % palette.length]);
 
+        // Create chart
         chartRef.current = new Chart(canvasRef.current, {
           type: 'doughnut',
           data: {
             labels: data.labels,
-            datasets: [{
-              data: data.values,
-              backgroundColor: colors,
-              borderColor: '#fff',
-              borderWidth: 2,
-            }]
+            datasets: [
+              {
+                data: data.values,
+                backgroundColor: colors,
+                borderColor: '#fff',
+                borderWidth: 2,
+              },
+            ],
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
               title: { display: true, text: 'AKPsi Membership Structure' },
-              legend: { position: 'right' }
-            }
-          }
+              legend: { position: 'right' },
+            },
+          },
         });
-
       } catch (err) {
+        console.error('Error creating membership chart:', err);
         setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
         setLoading(false);
@@ -54,7 +65,9 @@ export default function MembershipStructureOverview() {
 
     fetchData();
 
-    return () => { if (chartRef.current) chartRef.current.destroy(); };
+    return () => {
+      if (chartRef.current) chartRef.current.destroy();
+    };
   }, []);
 
   if (loading) return <Text>Loading membership data...</Text>;
@@ -62,8 +75,8 @@ export default function MembershipStructureOverview() {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" style={{ height: '420px' }}>
-      <Box h={380}>
-        <canvas ref={canvasRef}></canvas>
+      <Box style={{ height: '380px', width: '100%', position: 'relative' }}>
+        <canvas ref={canvasRef} style={{ width: '100%', height: '100%' }} />
       </Box>
     </Card>
   );
