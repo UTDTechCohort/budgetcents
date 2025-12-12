@@ -39,9 +39,10 @@ export default function BudgetOverview() {
   useEffect(() => {
     const fetchBudgetData = async () => {
       try {
-        const response = await fetch('/api/google-sheets/budget');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/api/google-sheets/budget`);
         if (!response.ok) throw new Error('Failed to fetch budget data');
         const data = await response.json();
+        console.log(data);
         setBudgetData(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
