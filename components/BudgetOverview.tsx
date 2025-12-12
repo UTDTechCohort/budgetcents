@@ -42,7 +42,7 @@ export default function BudgetOverview() {
         const response = await fetch(`/api/google-sheets/budget`);
         if (!response.ok) throw new Error('Failed to fetch budget data');
         const data = await response.json();
-        //console.log(data);
+        console.log('Budget API data:', data);
         setBudgetData(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
