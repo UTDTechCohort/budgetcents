@@ -45,11 +45,7 @@ CORS(app)
 # ------------------------------
 # DATABASE INIT
 # ------------------------------
-client = MongoClient(
-    os.getenv("CONNECTION_STRING"),
-    tls=True,
-    tlsAllowInvalidCertificates=False,
-)
+client = MongoClient(os.getenv("CONNECTION_STRING"))
 db = client["user_data"]
 members = db["membership_info"]
 budgets = db["committee_budget"]

@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { google } from 'googleapis';
-import fs from 'fs';
-import path from 'path';
 
 interface BudgetData {
   dueSummary: {
@@ -25,8 +23,8 @@ interface BudgetData {
 
 // Parse the service account and create auth client
 function getSheetClient() {
-  const serviceAccountPath = path.join(process.cwd(), 'pages', 'service_account.json');
-  const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
+  // Parse the JSON stored in the environment variable
+  const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT || '{}');
 
   const auth = new google.auth.GoogleAuth({
     credentials: serviceAccount,
