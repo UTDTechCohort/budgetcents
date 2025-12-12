@@ -11,10 +11,11 @@ export default function MembershipStructureOverview() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${process.env.AUTH0_BASE_URL}/api/google-sheets/membershipStructure`);
+        const base = `https://${process.env.AUTH0_BASE_URL?.replace(/^https?:\/\//, '')}`;
+        const res = await fetch(`${base}/api/google-sheets/membershipStructure`);
         if (!res.ok) throw new Error('Failed to fetch membership structure');
         const data = await res.json();
-        console.log(data)
+        //console.log(data)
 
         if (!canvasRef.current) return;
 
