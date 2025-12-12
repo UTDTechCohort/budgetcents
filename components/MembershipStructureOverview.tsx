@@ -14,7 +14,7 @@ export default function MembershipStructureOverview() {
         const res = await fetch(`/api/google-sheets/membershipStructure`);
         if (!res.ok) throw new Error('Failed to fetch membership structure');
         const data = await res.json();
-        //console.log(data)
+        console.log('Membership API data:', data);
 
         if (!canvasRef.current) return;
 
